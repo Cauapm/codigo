@@ -1,0 +1,69 @@
+#include <iostream>
+
+void preencherarray(int array[], int tamanho){
+    for (int i = 0; i < tamanho; i++){
+       std :: cout << "Digite um valor para a possição " << i << " do array: ";
+       std :: cin >> array[i];
+   } 
+}
+
+void imprimirarray(int array[], int tamanho){
+    std :: cout << "\nDados do array: ";
+    
+    for (int i = 0; i < tamanho; i++){
+        std :: cout << array[i] << " ";
+    }
+    std :: cout << '\n';
+}
+
+int somaarray(int array[], int tamanho){
+    int total{};
+    
+    for (int i = 0; i < tamanho; i++){
+        total += array[i];
+    }
+
+    return total;
+}
+
+int maior(int array[], int tamanho){
+    int maior = array[0];
+
+    for (int i = 0; i < tamanho; i++){
+        if (array[i] > maior){
+            maior = array[i];
+        }
+    }
+    return maior;
+}
+
+int menor(int array[], int tamanho){
+    int menor = array[0];
+
+    for (int i = 0; i < tamanho; i++){
+        if (array[i] < menor){
+            menor = array[i];
+        }
+    }
+    return menor;
+}
+
+int main(){
+    int Tamanho = 5;
+    int Array[Tamanho];
+    
+    
+    preencherarray(Array, Tamanho);
+    imprimirarray(Array, Tamanho);
+    
+    int resultadosoma(somaarray(Array, Tamanho)); 
+    int encontrarmaior(maior(Array, Tamanho));
+    int encontrarmenor(menor(Array, Tamanho));
+
+    
+    std :: cout << "\nA soma total de todos o valores dentro do array é: " << resultadosoma << '\n';
+    std :: cout << "O maior valor presente no array é: " << encontrarmaior << '\n';
+    std :: cout << "O menor valor presente no array é: " << encontrarmenor << '\n';
+
+    return 0;
+}
