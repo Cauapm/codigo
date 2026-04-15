@@ -1,0 +1,120 @@
+#include <iostream>
+#include <string>
+
+void cadastrartime(std :: string array_t[], int tamanho){
+    for (int i = 0; i < tamanho; i++){
+        std :: string existente;
+        bool time_existe;
+        
+        do{
+            time_existe = false;
+            
+            std :: cout << "Me informe o nome do time participante "<< i + 1 << ": ";
+            std :: getline(std :: cin >> std :: ws, existente);
+            
+            for (int j = 0; j < i; j++){
+                if (array_t[j] == existente){
+                    std :: cout << "Esse time " << existente << " ja existe! Digite outro\n\n";
+                    time_existe = true;
+                    break;
+                }    
+            }
+        }
+        while(time_existe);
+        
+        array_t[i] = existente;
+    }
+}
+
+void mostrartime(std :: string array_t[], int pontos[], int gols[], int tamanho){
+    std :: cout << "\nTimes |\tpontos|\tgols\n\n";
+    for (int i = 0; i < tamanho; i++){
+        std :: cout << array_t[i] << "\t|" << pontos[i] << "\t|" << gols[i] << '\n';
+    }
+}
+
+void registrarpartida(std :: string array_t[], int pontos[], int gols[], int time_casa, int time_visitante){
+    int gols_casa{};
+    int gols_visitante{};
+    
+    std :: cout << "\nQuantos gols fez o " << array_t[time_casa] << " : ";
+    std :: cin >> gols_casa;
+    gols[time_casa] = gols[time_casa] + gols_casa;
+    
+    std :: cout << "Quantos gols fez o " << array_t[time_visitante] << " : ";
+    std :: cin >> gols_visitante;
+    gols[time_visitante] = gols[time_visitante] + gols_visitante;
+    
+    if (gols_casa > gols_visitante){
+        pontos[time_casa] = pontos[time_casa] + 3;
+    }
+    else if (gols_visitante > gols_casa){
+        pontos[time_visitante] = pontos[time_visitante] + 3;
+    }
+    else {
+        pontos[time_casa] = pontos[time_casa] + 1;
+        pontos[time_visitante] = pontos[time_visitante] + 1;
+    }
+}
+
+void mostrartabela(std :: string array_t[], int pontos[], int gols[], int tamanho){
+    for (int i = 0; i < tamanho -1; i++){
+        for (int j = 0; j < tamanho - i - 1; j++){
+            bool atualizar = false; 
+            
+            if (pontos[j] < pontos[j + 1]){
+                atualizar = true;
+            }
+            else if (pontos[j] == pontos[j + 1] && gols[j] < gols[j + 1]){
+                atualizar = true;
+            }
+                
+            if (atualizar) {
+                int pontos_temporarios = pontos[j];
+                pontos[j] = pontos[j + 1];
+                pontos[j + 1] = pontos_temporarios;
+
+                int gols_temporarios = gols[j];
+                gols[j] = gols[j + 1];
+                gols[j + 1] = gols_temporarios;
+
+                std::string time_temporario = array_t[j];
+                array_t[j] = array_t[j + 1];
+                array_t[j + 1] = time_temporario;
+            }
+        }
+    }
+}
+
+void registrarcampeonato(std :: string array_t[], int pontos[], int gols[], int tamanho){
+    std :: cout << "\n============= Inicio do campeonato =============\n";
+    
+    for (int casa = 0; casa < tamanho; casa++){
+        for (int visitante = 0; visitante < tamanho; visitante++){
+            if (casa != visitante){
+                registrarpartida(array_t, pontos, gols, casa, visitante);
+                mostrartabela(array_t, pontos, gols, tamanho);
+                mostrartime(array_t, pontos, gols, tamanho);
+            }
+        }
+    }
+}
+
+int main(){
+    int Tamanho = 4;
+    std :: string Array_t[Tamanho];
+    int Pontos[Tamanho] = {};
+    int Gols[Tamanho] = {};
+    
+    cadastrartime(Array_t, Tamanho);
+    mostrartime(Array_t, Pontos, Gols, Tamanho);
+    
+    registrarcampeonato(Array_t, Pontos, Gols, Tamanho);
+    mostrartabela(Array_t, Pontos, Gols, Tamanho);
+    
+    std :: cout << "\n================== Classificação Final ==================\n";
+    mostrartime(Array_t, Pontos, Gols, Tamanho);
+
+    
+    return 0;
+}
