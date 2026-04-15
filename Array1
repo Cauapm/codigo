@@ -1,0 +1,27 @@
+#include <iostream>
+
+void preencherarray(int array[], int tamanho){
+    for (int i = 0; i < tamanho; i++){
+        std :: cout << "Digite o valor para a posição" << i << " no array: ";
+        std :: cin >> array[i];
+    }
+}
+
+void imprimirarray(int array[], int tamanho){
+    std :: cout << "Dados do array: ";
+    
+    for (int i = 0; i < tamanho; i++){
+        std :: cout << array[i] << " ";
+    }
+    std :: cout << '\n';
+
+}
+
+int main(){
+    int Tamanho = 5;
+    int Array[Tamanho];
+    
+    preencherarray(Array, Tamanho);
+    imprimirarray(Array, Tamanho);
+    return 0;
+}
